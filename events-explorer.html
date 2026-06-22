@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events Explorer | Travel Twin</title>
+<meta name="description" content="Travel Twin — Events Explorer: plan trips, match with travel twins, and explore the world together.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22><circle cx=%2224%22 cy=%2224%22 r=%2222%22 fill=%22%231e7a5f%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loading-screen">
+  <svg class="loader-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="path-a" d="M24 8 C 16 16, 16 32, 24 40" stroke-width="1.8" fill="none"/>
+    <path class="path-b" d="M24 8 C 32 16, 32 32, 24 40" stroke-width="1.8" fill="none"/>
+  </svg>
+</div>
+<nav class="navbar navbar-expand-lg navbar-tt fixed-top">
+  <div class="container">
+    <a class="navbar-brand brand-mark" href="index.html">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="24" cy="24" r="22" stroke="#1e7a5f" stroke-width="1.4" stroke-dasharray="1 5"/>
+  <path d="M24 8 C 16 16, 16 32, 24 40" stroke="#1e7a5f" stroke-width="1.6" fill="none"/>
+  <path d="M24 8 C 32 16, 32 32, 24 40" stroke="#d9a85c" stroke-width="1.6" fill="none"/>
+  <circle cx="24" cy="8" r="2.6" fill="#1e7a5f"/>
+  <circle cx="24" cy="40" r="2.6" fill="#d9a85c"/>
+  <path d="M14 24 L34 24" stroke="#2fa98c" stroke-width="1.2" stroke-dasharray="2 3"/>
+  <path d="M30 18 L36 16 L34 22 Z" fill="#1e7a5f"/>
+</svg>
+      <span class="brand-wordmark">Travel<span>Ease</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav">
+      <i class="bi bi-list fs-2"></i>
+    </button>
+    <div class="collapse navbar-collapse d-none d-lg-flex">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+<li class="nav-item"><a class="nav-link" href="travel-twin.html">Travel Twin</a></li>
+<li class="nav-item"><a class="nav-link" href="travel-buddy.html">Buddy Finder</a></li>
+<li class="nav-item"><a class="nav-link" href="budget-simulator.html">Budget</a></li>
+<li class="nav-item"><a class="nav-link" href="events-explorer.html">Events</a></li>
+<li class="nav-item"><a class="nav-link" href="about.html">About-us</a></li>
+<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav">
+  <div class="offcanvas-header">
+    <a class="navbar-brand brand-mark" href="index.html"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="24" cy="24" r="22" stroke="#1e7a5f" stroke-width="1.4" stroke-dasharray="1 5"/>
+  <path d="M24 8 C 16 16, 16 32, 24 40" stroke="#1e7a5f" stroke-width="1.6" fill="none"/>
+  <path d="M24 8 C 32 16, 32 32, 24 40" stroke="#d9a85c" stroke-width="1.6" fill="none"/>
+  <circle cx="24" cy="8" r="2.6" fill="#1e7a5f"/>
+  <circle cx="24" cy="40" r="2.6" fill="#d9a85c"/>
+  <path d="M14 24 L34 24" stroke="#2fa98c" stroke-width="1.2" stroke-dasharray="2 3"/>
+  <path d="M30 18 L36 16 L34 22 Z" fill="#1e7a5f"/>
+</svg><span class="brand-wordmark">Travel<span>Twin</span></span></a>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav">
+      <li class="nav-item py-1"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="destinations.html">Destinations</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="travel-twin.html">Travel Twin</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="travel-buddy.html">Buddy Finder</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="budget-simulator.html">Budget</a></li>
+<li class="nav-item py-1"><a class="nav-link active" href="events-explorer.html">Events</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="community-forum.html">Forum</a></li>
+<li class="nav-item py-1"><a class="nav-link" href="contact.html">Contact</a></li>
+
+      <li class="nav-item mt-3"><a href="login.html" class="btn btn-tt-outline w-100 mb-2">Log In</a></li>
+      <li class="nav-item"><a href="register.html" class="btn btn-tt-primary w-100">Sign Up</a></li>
+    </ul>
+  </div>
+</div>
+<div style="height:78px;"></div>
+
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb-tt mb-2"><a href="index.html">Home</a> / Events Explorer</nav>
+    <h1 class="mb-2">Events Explorer</h1>
+    <p class="section-sub">Festivals, adventures, and local experiences happening around the world.</p>
+    <div class="search-bar-tt mt-3" style="max-width:520px;">
+      <i class="bi bi-search text-secondary"></i>
+      <input type="text" class="tt-search-input" placeholder="Search events or destinations...">
+      <button class="btn btn-tt-primary btn-sm-pill">Search</button>
+      <div class="search-suggestions"></div>
+    </div>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <ul class="nav nav-pills mb-4 gap-2">
+      <li class="nav-item"><a class="nav-link active" style="border-radius:999px;background:var(--tt-forest);" href="#">All</a></li>
+      <li class="nav-item"><a class="nav-link" style="border-radius:999px;" href="#">Festivals</a></li>
+      <li class="nav-item"><a class="nav-link" style="border-radius:999px;" href="#">Adventure</a></li>
+      <li class="nav-item"><a class="nav-link" style="border-radius:999px;" href="#">Local Experiences</a></li>
+    </ul>
+    <div class="row g-4">
+      
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1576515615291-da19033f4b04?w=600" alt="Holi Festival of Colors"><span class="match-badge">Festival</span></div>
+        <div class="p-3"><h6 class="mb-1">Holi Festival of Colors</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Jaipur, India</small><small class="text-grey"><i class="bi bi-calendar3"></i> Mar 14, 2027</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600" alt="Sahara Desert Trek"><span class="match-badge">Adventure</span></div>
+        <div class="p-3"><h6 class="mb-1">Sahara Desert Trek</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Merzouga, Morocco</small><small class="text-grey"><i class="bi bi-calendar3"></i> Oct 5, 2026</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1554797589-7241bb691973?w=600" alt="Tokyo Street Food Walk"><span class="match-badge">Local Experience</span></div>
+        <div class="p-3"><h6 class="mb-1">Tokyo Street Food Walk</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Tokyo, Japan</small><small class="text-grey"><i class="bi bi-calendar3"></i> Sep 20, 2026</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1483347756197-71ef80e95f73?w=600" alt="Northern Lights Camp"><span class="match-badge">Nature</span></div>
+        <div class="p-3"><h6 class="mb-1">Northern Lights Camp</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Tromsø, Norway</small><small class="text-grey"><i class="bi bi-calendar3"></i> Dec 10, 2026</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1518639192441-8fce0a366e2e?w=600" alt="Carnival de Rio"><span class="match-badge">Festival</span></div>
+        <div class="p-3"><h6 class="mb-1">Carnival de Rio</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Rio de Janeiro, Brazil</small><small class="text-grey"><i class="bi bi-calendar3"></i> Feb 8, 2027</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+      <div class="col-md-4 col-sm-6 reveal">
+        <div class="tt-card h-100"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1518182170546-07661fd94144?w=600" alt="Cappadocia Balloon Ride"><span class="match-badge">Adventure</span></div>
+        <div class="p-3"><h6 class="mb-1">Cappadocia Balloon Ride</h6><small class="text-grey d-block"><i class="bi bi-geo-alt"></i> Cappadocia, Turkey</small><small class="text-grey"><i class="bi bi-calendar3"></i> May 2, 2026</small>
+        <button class="btn btn-tt-primary btn-sm-pill w-100 mt-3">View Event</button></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer-tt">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <a class="navbar-brand brand-mark mb-3 d-inline-flex" href="index.html"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="24" cy="24" r="22" stroke="#1e7a5f" stroke-width="1.4" stroke-dasharray="1 5"/>
+  <path d="M24 8 C 16 16, 16 32, 24 40" stroke="#1e7a5f" stroke-width="1.6" fill="none"/>
+  <path d="M24 8 C 32 16, 32 32, 24 40" stroke="#d9a85c" stroke-width="1.6" fill="none"/>
+  <circle cx="24" cy="8" r="2.6" fill="#1e7a5f"/>
+  <circle cx="24" cy="40" r="2.6" fill="#d9a85c"/>
+  <path d="M14 24 L34 24" stroke="#2fa98c" stroke-width="1.2" stroke-dasharray="2 3"/>
+  <path d="M30 18 L36 16 L34 22 Z" fill="#1e7a5f"/>
+</svg><span class="brand-wordmark">Travel<span>Ease</span></span></a>
+        <p class="mt-3 small">Travel Twin pairs solo explorers with like-minded companions and plans every detail in between — destinations, budgets, and the people who make a trip unforgettable.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="social-circle"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-circle"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-circle"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-circle"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="about.html">About Us</a></li>
+          <li class="mb-2"><a href="destinations.html">Destinations</a></li>
+          <li class="mb-2"><a href="events-explorer.html">Events</a></li>
+          <li class="mb-2"><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Services</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="travel-twin.html">Twin Matching</a></li>
+          <li class="mb-2"><a href="travel-buddy.html">Buddy Finder</a></li>
+          <li class="mb-2"><a href="budget-simulator.html">Budget Simulator</a></li>
+          <li class="mb-2"><a href="ai-assistant.html">AI Assistant</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6>Newsletter</h6>
+        <p class="small">Get curated trip ideas and travel-twin matches in your inbox.</p>
+        <form class="d-flex gap-2">
+          <input type="email" class="form-control" placeholder="Email address" required>
+          <button class="btn btn-tt-primary px-3" type="submit"><i class="bi bi-send"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span>© 2026 Travel Twin. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="faq.html">FAQ</a></span>
+    </div>
+  </div>
+</footer>
+<button class="ai-fab" id="aiFab" aria-label="Open AI Assistant"><i class="bi bi-stars fs-4"></i></button>
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="ai-chat-head">
+    <i class="bi bi-stars fs-5"></i>
+    <div class="flex-grow-1">
+      <div class="fw-semibold" style="font-size:.92rem;">Twin Assistant</div>
+      <div style="font-size:.74rem;opacity:.85;">Online · usually replies instantly</div>
+    </div>
+    <button class="btn btn-sm text-white" id="aiChatClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="ai-chat-body" id="aiChatBody">
+    <div class="ai-msg bot">Hi! I'm your Travel Twin assistant. Ask me about destinations, budgets, visas, packing, or weather.</div>
+  </div>
+  <form class="ai-chat-foot" id="aiChatForm">
+    <input type="text" id="aiChatInput" placeholder="Type a message..." autocomplete="off">
+    <button type="submit"><i class="bi bi-send"></i></button>
+  </form>
+</div>
+<button class="back-to-top"><i class="bi bi-arrow-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

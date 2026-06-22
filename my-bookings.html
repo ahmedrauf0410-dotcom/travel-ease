@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings & Buddy Finder | Travel Twin</title>
+<meta name="description" content="Travel Twin — Manage bookings and match with travel twins instantly.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22><circle cx=%2224%22 cy=%2224%22 r=%2222%22 fill=%22%231e7a5f%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  :root { --forest: #1e7a5f; --gold: #d9a85c; --mist: #f4f6f5; }
+  body { font-family: 'Inter', sans-serif; background-color: #fafdfa; color: #333; }
+  .text-forest { color: var(--forest); }
+  .text-grey { color: #6c757d; }
+  .navbar-tt { background: white; border-bottom: 1px solid #e1e6e3; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+  .brand-wordmark span { color: var(--forest); font-weight: 700; }
+  .brand-mark svg { width: 32px; height: 32px; vertical-align: middle; }
+  
+  .page-header { background: #f4f7f5; padding: 40px 0; border-bottom: 1px solid #e1e6e3; margin-bottom: 2rem; }
+  .breadcrumb-tt a { color: var(--forest); text-decoration: none; }
+  
+  .btn-tt-primary { background-color: var(--forest); color: white; border: none; border-radius: 50px; padding: 8px 20px; transition: 0.2s; font-weight: 500; }
+  .btn-tt-primary:hover { background-color: #155543; color: white; }
+  .btn-tt-outline { border: 1px solid var(--forest); color: var(--forest); background: transparent; border-radius: 50px; padding: 8px 20px; transition: 0.2s; }
+  .btn-tt-outline:hover { background: var(--forest); color: white; }
+  .btn-sm-pill { padding: 4px 14px; font-size: 0.85rem; }
+
+  .tt-card, .filter-card { background: white; border: 1px solid #e1e6e3; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); transition: transform 0.2s; }
+  .avatar-circle { width: 44px; height: 44px; background: #e8f2ee; color: var(--forest); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.95rem; }
+  
+  .match-circle { width: 42px; height: 42px; border-radius: 50%; background: conic-gradient(var(--forest) calc(var(--pct) * 1%), #e1e6e3 0); display: flex; align-items: center; justify-content: center; padding: 3px; }
+  .match-circle span { background: white; width: 100%; height: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: var(--forest); }
+  
+  /* Loading screen */
+  #loading-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:9999; display:flex; align-items:center; justify-content:center; transition: opacity 0.4s ease; }
+  .loader-mark { width: 50px; height: 50px; animation: spin 1s linear infinite; stroke: var(--forest); }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* AI Floating Widget */
+  .ai-fab { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: var(--forest); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); z-index: 999; cursor: pointer; }
+  .ai-chat-window { position: fixed; bottom: 96px; right: 24px; width: 340px; height: 440px; background: white; border: 1px solid #e1e6e3; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); display: none; flex-direction: column; overflow: hidden; z-index: 999; }
+  .ai-chat-head { background: var(--forest); color: white; padding: 14px; display: flex; align-items: center; gap: 10px; }
+  .ai-chat-body { flex-grow: 1; padding: 15px; overflow-y: auto; background: #f8faf9; display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem; }
+  .ai-msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; }
+  .ai-msg.bot { background: white; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e1e6e3; }
+  .ai-msg.user { background: var(--forest); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+  .ai-chat-foot { padding: 10px; background: white; border-top: 1px solid #e1e6e3; display: flex; gap: 8px; }
+  .ai-chat-foot input { flex-grow: 1; border: 1px solid #ced4da; padding: 6px 14px; border-radius: 20px; font-size: 0.88rem; outline: none; }
+  .ai-chat-foot button { background: var(--forest); color: white; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  
+  .back-to-top { position: fixed; bottom: 24px; left: 24px; width: 44px; height: 44px; background: white; border: 1px solid #e1e6e3; border-radius: 50%; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 998; cursor: pointer; color: var(--forest); }
+  .footer-tt { background: #111; color: #aaa; padding: 60px 0 30px; margin-top: 5rem; }
+  .footer-tt h6 { color: white; font-weight: 600; margin-bottom: 1.2rem; }
+  .footer-tt a { color: #aaa; text-decoration: none; }
+  .footer-tt a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <svg class="loader-mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 8 C 16 16, 16 32, 24 40" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M24 8 C 32 16, 32 32, 24 40" stroke-width="3" stroke-linecap="round" fill="none" style="stroke:var(--gold);opacity:0.5;"/>
+  </svg>
+</div>
+
+<!-- TOP NAV HEADER -->
+<nav class="navbar navbar-expand-lg navbar-tt fixed-top">
+  <div class="container">
+    <a class="navbar-brand brand-mark d-flex align-items-center gap-2 fw-bold text-dark text-decoration-none" href="index.html">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" stroke="#1e7a5f" stroke-width="1.4" stroke-dasharray="1 5"/>
+        <path d="M24 8 C 16 16, 16 32, 24 40" stroke="#1e7a5f" stroke-width="1.6" fill="none"/>
+        <path d="M24 8 C 32 16, 32 32, 24 40" stroke="#d9a85c" stroke-width="1.6" fill="none"/>
+        <circle cx="24" cy="8" r="2.6" fill="#1e7a5f"/>
+        <circle cx="24" cy="40" r="2.6" fill="#d9a85c"/>
+      </svg>
+      <span class="brand-wordmark">Travel<span>Ease</span></span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileNav">
+      <i class="bi bi-list fs-2"></i>
+    </button>
+    <div class="collapse navbar-collapse d-none d-lg-flex">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+        <li class="nav-item"><a class="nav-link" href="travel-twin.html">Travel Twin</a></li>
+        <li class="nav-item"><a class="nav-link active fw-bold text-forest" href="travel-buddy.html">Buddy Finder</a></li>
+        <li class="nav-item"><a class="nav-link" href="budget-simulator.html">Budget</a></li>
+        <li class="nav-item"><a class="nav-link" href="events-explorer.html">Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="community-forum.html">Forum</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav">
+  <div class="offcanvas-header">
+    <a class="navbar-brand brand-mark d-flex align-items-center text-decoration-none" href="index.html">
+      <span class="brand-wordmark">Travel<span>Twin</span></span>
+    </a>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav">
+      <li class="nav-item py-1"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="destinations.html">Destinations</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="travel-twin.html">Travel Twin</a></li>
+      <li class="nav-item py-1"><a class="nav-link active" href="travel-buddy.html">Buddy Finder</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="budget-simulator.html">Budget</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="events-explorer.html">Events</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="community-forum.html">Forum</a></li>
+      <li class="nav-item py-1"><a class="nav-link" href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</div>
+
+<div style="height:78px;"></div>
+
+<!-- SECTION 1: USER BOOKINGS PANEL -->
+<div class="page-header">
+  <div class="container">
+    <nav class="breadcrumb-tt mb-2"><a href="index.html">Home</a> / My Bookings</nav>
+    <h1 class="mb-2 fw-bold">My Bookings</h1>
+    <p class="section-sub text-muted">Manage your upcoming, pending, and past trips.</p>
+  </div>
+</div>
+
+<section class="container mb-5">
+  <ul class="nav nav-tabs mb-4" id="bookingTabs">
+    <li class="nav-item"><a class="nav-link active" data-status="all" href="#">All</a></li>
+    <li class="nav-item"><a class="nav-link" data-status="confirmed" href="#">Upcoming</a></li>
+    <li class="nav-item"><a class="nav-link" data-status="pending" href="#">Pending</a></li>
+    <li class="nav-item"><a class="nav-link" data-status="completed" href="#">Completed</a></li>
+    <li class="nav-item"><a class="nav-link" data-status="cancelled" href="#">Cancelled</a></li>
+  </ul>
+  
+  <div id="bookingsContainer">
+    <!-- Managed via JavaScript Object Array Rendering Engine -->
+  </div>
+</section>
+
+<!-- SECTION 2: BUDDY FINDER SYSTEM -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="mb-2 fw-bold">Travel Buddy Finder</h1>
+    <p class="section-sub text-muted">Browse travelers heading your way and connect before you land.</p>
+  </div>
+</div>
+
+<section class="container">
+  <div class="row g-4">
+    <div class="col-lg-3">
+      <div class="filter-card p-4">
+        <h6 class="mb-3 fw-bold"><i class="bi bi-sliders me-2"></i>Filters</h6>
+        
+        <label class="form-label small fw-semibold text-secondary">Destination</label>
+        <input type="text" id="buddyDest" class="form-control mb-3" placeholder="Any destination">
+        
+        <label class="form-label small fw-semibold text-secondary">Age Range</label>
+        <div class="d-flex gap-2 mb-3">
+          <input type="number" id="buddyAgeMin" class="form-control" placeholder="18" value="18">
+          <input type="number" id="buddyAgeMax" class="form-control" placeholder="45" value="45">
+        </div>
+        
+        <label class="form-label small fw-semibold text-secondary">Interests</label>
+        <div class="form-check"><input class="form-check-input chk-interest" type="checkbox" value="Adventure" checked id="c1"><label class="form-check-label small" for="c1">Adventure</label></div>
+        <div class="form-check"><input class="form-check-input chk-interest" type="checkbox" value="Culture" id="c2"><label class="form-check-label small" for="c2">Culture</label></div>
+        <div class="form-check"><input class="form-check-input chk-interest" type="checkbox" value="Food" id="c3"><label class="form-check-label small" for="c3">Food</label></div>
+        <div class="form-check"><input class="form-check-input chk-interest" type="checkbox" value="Wellness" id="c4"><label class="form-check-label small" for="c4">Wellness</label></div>
+        
+        <button class="btn btn-tt-primary w-100 mt-4" id="btnFilterBuddies">Apply Filters</button>
+      </div>
+    </div>
+    
+    <div class="col-lg-9">
+      <div class="row g-4" id="buddiesWrapper">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title fw-bold">Cancel Booking?</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">This action cannot be undone. Cancellation fees may apply depending on your booking's fare rules.</div>
+      <div class="modal-footer">
+        <button class="btn btn-tt-outline btn-sm-pill" data-bs-dismiss="modal">Keep Booking</button>
+        <button class="btn btn-danger btn-sm-pill" id="confirmCancelBtn">Confirm Cancellation</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-tt">
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <a class="navbar-brand brand-mark mb-3 d-inline-flex text-decoration-none" href="index.html">
+          <span class="brand-wordmark text-white">Travel<span>Ease</span></span>
+        </a>
+        <p class="mt-3 small">Travel Twin pairs solo explorers with like-minded companions and plans every detail in between.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="btn btn-sm btn-outline-light rounded-circle"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="btn btn-sm btn-outline-light rounded-circle"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="btn btn-sm btn-outline-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="about.html">About Us</a></li>
+          <li class="mb-2"><a href="destinations.html">Destinations</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Services</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="travel-twin.html">Twin Matching</a></li>
+          <li class="mb-2"><a href="travel-buddy.html">Buddy Finder</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6>Newsletter</h6>
+        <form class="d-flex gap-2">
+          <input type="email" class="form-control" placeholder="Email address" required>
+          <button class="btn btn-tt-primary px-3" type="submit"><i class="bi bi-send"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span>© 2026 Travel Twin. All rights reserved.</span>
+      <span><a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="faq.html">FAQ</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- INTERACTIVE CHAT ENGINE AND UTILITIES -->
+<button class="ai-fab" id="aiFab" aria-label="Open AI Assistant"><i class="bi bi-stars fs-4"></i></button>
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="ai-chat-head">
+    <i class="bi bi-stars fs-5"></i>
+    <div class="flex-grow-1">
+      <div class="fw-semibold">Twin Assistant</div>
+      <div style="font-size:.74rem;opacity:.85;">Online · replies instantly</div>
+    </div>
+    <button class="btn btn-sm text-white p-0 border-0" id="aiChatClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="ai-chat-body" id="aiChatBody">
+    <div class="ai-msg bot">Hi! I'm your Travel Twin assistant. Ask me about destinations, budgets, visas, packing, or weather.</div>
+  </div>
+  <form class="ai-chat-foot" id="aiChatForm">
+    <input type="text" id="aiChatInput" placeholder="Type a message..." autocomplete="off" required>
+    <button type="submit"><i class="bi bi-send"></i></button>
+  </form>
+</div>
+
+<button class="back-to-top" id="backToTop"><i class="bi bi-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Data Store Arrays
+let bookingsData = [
+  { id: 101, title: "Bali Beach Retreat", dest: "Bali, Indonesia", dates: "Aug 12 – Aug 22, 2026", status: "confirmed", img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=300" },
+  { id: 102, title: "Swiss Alps Trek", dest: "Interlaken, Switzerland", dates: "Sep 4 – Sep 11, 2026", status: "pending", img: "https://images.unsplash.com/photo-1452960962994-acf4fd70b632?w=300" },
+  { id: 103, title: "Tokyo City Explorer", dest: "Tokyo, Japan", dates: "Jun 2 – Jun 9, 2026", status: "completed", img: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=300" },
+  { id: 104, title: "Dubai City Lights", dest: "Dubai, UAE", dates: "Nov 1 – Nov 6, 2026", status: "cancelled", img: "https://images.unsplash.com/photo-1518684079-3c830dcef090?w=300" }
+];
+
+const buddiesData = [
+  { id: 1, name: "Sara R.", initials: "SR", age: 28, destination: "Bali, Indonesia", dates: "Aug 12–22", interests: ["Adventure"], pct: 92 },
+  { id: 2, name: "Daniel O.", initials: "DO", age: 31, destination: "Lisbon, Portugal", dates: "Sep 3–10", interests: ["Food"], pct: 87 },
+  { id: 3, name: "Priya N.", initials: "PN", age: 26, destination: "Kyoto, Japan", dates: "Oct 1–14", interests: ["Culture"], pct: 94 },
+  { id: 4, name: "Marco V.", initials: "MV", age: 34, destination: "Cape Town, SA", dates: "Jul 20–30", interests: ["Adventure"], pct: 81 },
+  { id: 5, name: "Yuki T.", initials: "YT", age: 29, destination: "Bali, Indonesia", dates: "Aug 15–25", interests: ["Wellness"], pct: 90 },
+  { id: 6, name: "Emma S.", initials: "ES", age: 24, destination: "Marrakech, Morocco", dates: "Nov 5–12", interests: ["Adventure"], pct: 78 }
+];
+
+let selectedBookingId = null;
+
+// Bookings Engine Render Logic
+function renderBookings(filter = "all") {
+  const target = document.getElementById("bookingsContainer");
+  target.innerHTML = "";
+  
+  const filtered = bookingsData.filter(b => filter === "all" || b.status === filter);
+  
+  if (filtered.length === 0) {
+    target.innerHTML = `<div class="p-4 text-center text-muted">No items found under this criteria.</div>`;
+    return;
+  }
+  
+  filtered.forEach(b => {
+    let badgeClass = b.status === "confirmed" ? "text-bg-success" : b.status === "pending" ? "text-bg-warning" : b.status === "completed" ? "text-bg-secondary" : "text-bg-danger";
+    let dropdownActions = b.status !== 'cancelled' ? `
+      <li><a class="dropdown-item text-danger option-cancel" href="#" data-id="${b.id}" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Booking</a></li>
+    ` : `<li><a class="dropdown-item disabled" href="#">No actions available</a></li>`;
+
+    target.insertAdjacentHTML('beforeend', `
+      <div class="tt-card p-3 mb-3">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-2"><img src="${b.img}" class="rounded-3 w-100" style="height:90px;object-fit:cover;" alt=""></div>
+          <div class="col-md-4"><h6 class="mb-1 fw-bold">${b.title}</h6><small class="text-grey"><i class="bi bi-geo-alt"></i> ${b.dest}</small></div>
+          <div class="col-md-3"><small class="text-grey d-block">Travel Dates</small>${b.dates}</div>
+          <div class="col-md-2"><span class="badge ${badgeClass} rounded-pill px-3 py-2 text-capitalize">${b.status}</span></div>
+          <div class="col-md-1 text-end">
+            <div class="dropdown">
+              <button class="btn btn-tt-outline btn-sm-pill dropdown-toggle" data-bs-toggle="dropdown">Manage</button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">View Invoice</a></li>
+                ${dropdownActions}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+  
+  // Attach cancel item listeners dynamically
+  document.querySelectorAll(".option-cancel").forEach(btn => {
+    btn.addEventListener("click", function() {
+      selectedBookingId = parseInt(this.getAttribute("data-id"));
+    });
+  });
+}
+
+// Buddy Filter Logic Engine
+function renderBuddies() {
+  const wrapper = document.getElementById("buddiesWrapper");
+  const destVal = document.getElementById("buddyDest").value.toLowerCase().trim();
+  const minAge = parseInt(document.getElementById("buddyAgeMin").value) || 0;
+  const maxAge = parseInt(document.getElementById("buddyAgeMax").value) || 100;
+  
+  const chosenInterests = Array.from(document.querySelectorAll(".chk-interest:checked")).map(el => el.value.toLowerCase());
+  wrapper.innerHTML = "";
+
+  const filtered = buddiesData.filter(buddy => {
+    const matchDest = !destVal || buddy.destination.toLowerCase().includes(destVal);
+    const matchAge = buddy.age >= minAge && buddy.age <= maxAge;
+    const matchInterest = chosenInterests.length === 0 || buddy.interests.some(i => chosenInterests.includes(i.toLowerCase()));
+    return matchDest && matchAge && matchInterest;
+  });
+
+  if (filtered.length === 0) {
+    wrapper.innerHTML = `<div class="col-12 text-center py-5 text-muted"><i class="bi bi-person-x fs-2"></i><p>No travel buddies matched your search filter criteria.</p></div>`;
+    return;
+  }
+
+  filtered.forEach(item => {
+    wrapper.insertAdjacentHTML('beforeend', `
+      <div class="col-md-4 col-sm-6">
+        <div class="tt-card p-4 h-100 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="d-flex gap-2">
+              <div class="avatar-circle">${item.initials}</div>
+              <div><h6 class="mb-0 fw-bold">${item.name}</h6><small class="text-grey">${item.age} · ${item.interests.join(', ')}</small></div>
+            </div>
+            <div class="match-circle" style="--pct:${item.pct};"><span>${item.pct}%</span></div>
+          </div>
+          <small class="text-grey d-block mt-2"><i class="bi bi-geo-alt"></i> ${item.destination}</small>
+          <small class="text-grey d-block mb-3"><i class="bi bi-calendar3"></i> ${item.dates}</small>
+          <div class="d-flex gap-2 mt-auto">
+            <button class="btn btn-tt-primary btn-sm-pill flex-fill" onclick="alert('Connection request sent!')">Connect</button>
+            <button class="btn btn-tt-outline btn-sm-pill flex-fill" onclick="alert('Starting live thread matrix...')"><i class="bi bi-chat-dots"></i></button>
+          </div>
+        </div>
+      </div>
+    `);
+  });
+}
+
+// Event bindings pipeline lifecycle hooks setup
+document.addEventListener("DOMContentLoaded", () => {
+  // Loader Fade-Out Action
+  const loader = document.getElementById("loading-screen");
+  setTimeout(() => {
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 400);
+  }, 300);
+
+  // Initialize Lists
+  renderBookings();
+  renderBuddies();
+
+  // Booking Tab switching controllers
+  document.querySelectorAll("#bookingTabs .nav-link").forEach(tab => {
+    tab.addEventListener("click", function(e) {
+      e.preventDefault();
+      document.querySelectorAll("#bookingTabs .nav-link").forEach(t => t.classList.remove("active"));
+      this.classList.add("active");
+      renderBookings(this.getAttribute("data-status"));
+    });
+  });
+
+  // Booking Modal Cancellation logic
+  document.getElementById("confirmCancelBtn").addEventListener("click", () => {
+    if (selectedBookingId) {
+      bookingsData = bookingsData.map(b => b.id === selectedBookingId ? { ...b, status: 'cancelled' } : b);
+      const activeTabStatus = document.querySelector("#bookingTabs .nav-link.active").getAttribute("data-status");
+      renderBookings(activeTabStatus);
+    }
+  });
+
+  // Trigger Buddy Filtering Matrix click routine
+  document.getElementById("btnFilterBuddies").addEventListener("click", () => {
+    renderBuddies();
+  });
+
+  // AI Chat Interface
+  const fab = document.getElementById("aiFab");
+  const win = document.getElementById("aiChatWindow");
+  const close = document.getElementById("aiChatClose");
+  const form = document.getElementById("aiChatForm");
+  const body = document.getElementById("aiChatBody");
+  const input = document.getElementById("aiChatInput");
+
+  fab.addEventListener("click", () => win.style.display = win.style.display === "flex" ? "none" : "flex");
+  close.addEventListener("click", () => win.style.display = "none");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const val = input.value.trim();
+    if (!val) return;
+    
+    body.insertAdjacentHTML('beforeend', `<div class="ai-msg user">${val}</div>`);
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      let response = "That sounds interesting! Let me look over active trip files and companion vectors for you.";
+      if (val.toLowerCase().includes("bali")) response = "Bali itineraries are heating up! We currently have Sara R. and Yuki T. scheduling summer trips there.";
+      if (val.toLowerCase().includes("cancel")) response = "You can update or modify dynamic elements inside your Bookings dashboard anytime.";
+      body.insertAdjacentHTML('beforeend', `<div class="ai-msg bot">${response}</div>`);
+      body.scrollTop = body.scrollHeight;
+    }, 600);
+  });
+
+  // Scroll visibility handling
+  const btt = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    btt.style.display = window.scrollY > 300 ? "flex" : "none";
+  });
+  btt.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+});
+</script>
+</body>
+</html>
